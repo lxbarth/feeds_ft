@@ -9,8 +9,6 @@ define('FEEDS_FT_BATCH_SIZE', 500);
 class FeedsFTProcessor extends FeedsProcessor {
   /**
    * Implementation of FeedsProcessor::process().
-   *
-   * @todo Implement batch support.
    */
   public function process(FeedsImportBatch $batch, FeedsSource $source) {
     // @todo Use feed node's owner?
