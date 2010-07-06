@@ -13,7 +13,7 @@ USAGE
 1. Install Feeds, Feeds UI, Google Fusion API, Feeds Fusion Tables [3].
 2. Go to Google and register your domain [4], you will obtain an OAuth consumer
    key and an OAuth consumer secret.
-3. Go to your site's admin/settings/oauth/google and enter the key and secret.
+3. Go to your site's admin/settings/gdata/oauth and enter the key and secret.
 4. Go to your Drupal user account, click on the "Google" tab and request and
    authorize a token.
 5. Go to admin/build/feeds and create a Feeds Importer and pick Fusion Table
