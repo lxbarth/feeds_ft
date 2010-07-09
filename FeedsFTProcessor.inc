@@ -46,11 +46,7 @@ class FeedsFTProcessor extends FeedsProcessor {
     $rows = $fusion->insertData($ft_id, array_keys($schema), $data);
     if (count($rows) != count($data)) {
       drupal_set_message(t('Error transferring data to Fusion tables.'), 'error');
-      error_log(t('Error transferring data to Fusion tables.'));
-    }
-    else {
-      drupal_set_message(t('Success transferring'));
-      error_log(t('Success transferring'));
+      return FEEDS_BATCH_COMPLETE;
     }
 
     if ($complete == FEEDS_BATCH_COMPLETE) {
