@@ -33,29 +33,31 @@ class FeedsFTProcessor extends FeedsProcessor {
     // Iterate through all items and store to FT.
     $created = 0;
     $data = array();
+    $complete = FEEDS_BATCH_COMPLETE;
     while ($item = $batch->shiftItem()) {
       $data[] = $this->map($item);
       $created++;
       $batch->created++;
       if ($created > variable_get('feeds_ft_batch_size', FEEDS_FT_BATCH_SIZE)) {
-        return (1.0 / ($batch->total + 1)) * $batch->created; // @todo: move this into $batch->progress();
+        $complete = (1.0 / ($batch->total + 1)) * $batch->created; // @todo: move this into $batch->progress();
+        break;
       }
     }
+    if (!$fusion->insertData($ft_id, array_keys($schema), $data)) {
+      drupal_set_message(t('Error transferring data to Fusion tables.'), 'error');
+      return FEEDS_BATCH_COMPLETE;
+    }
 
-    // Set messages.
-    if ($batch->created) {
-      if ($fusion->insertData($ft_id, array_keys($schema), $data)) {
+    if ($complete == FEEDS_BATCH_COMPLETE) {
+      // Set messages.
+      if ($batch->created) {
         drupal_set_message(t('Created !created items in Google Fusion Tables', array('!created' => $batch->created)));
       }
       else {
-        drupal_set_message(t('There was an error transferring data to Google Fusion Tables'), 'error');
+        drupal_set_message(t('There was no data to be transferred to Google Fusion Tables.'));
       }
     }
-    else {
-      drupal_set_message(t('There is no data to be transferred to Google Fusion Tables'));
-    }
-
-    return FEEDS_BATCH_COMPLETE;
+    return $complete;
   }
 
   /**
