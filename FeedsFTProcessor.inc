@@ -43,10 +43,12 @@ class FeedsFTProcessor extends FeedsProcessor {
         break;
       }
     }
-    $rows = $fusion->insertData($ft_id, array_keys($schema), $data);
-    if (count($rows) != count($data)) {
-      drupal_set_message(t('Error transferring data to Fusion tables.'), 'error');
-      return FEEDS_BATCH_COMPLETE;
+    if (!empty($data)) {
+      $rows = $fusion->insertData($ft_id, array_keys($schema), $data);
+      if (count($rows) != count($data)) {
+        drupal_set_message(t('Error transferring data to Fusion tables.'), 'error');
+        return FEEDS_BATCH_COMPLETE;
+      }
     }
 
     if ($complete == FEEDS_BATCH_COMPLETE) {
