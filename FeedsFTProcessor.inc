@@ -1,7 +1,7 @@
 <?php
 
 // Create FEEDS_FT_BATCH_SIZE at a time.
-define('FEEDS_FT_BATCH_SIZE', 500);
+define('FEEDS_FT_BATCH_SIZE', 100);
 
 /**
  * Upload to Google Fusion Tables.
@@ -43,9 +43,14 @@ class FeedsFTProcessor extends FeedsProcessor {
         break;
       }
     }
-    if (!$fusion->insertData($ft_id, array_keys($schema), $data)) {
+    $rows = $fusion->insertData($ft_id, array_keys($schema), $data);
+    if (count($rows) != count($data)) {
       drupal_set_message(t('Error transferring data to Fusion tables.'), 'error');
-      return FEEDS_BATCH_COMPLETE;
+      error_log(t('Error transferring data to Fusion tables.'));
+    }
+    else {
+      drupal_set_message(t('Success transferring'));
+      error_log(t('Success transferring'));
     }
 
     if ($complete == FEEDS_BATCH_COMPLETE) {
