@@ -62,7 +62,7 @@ class FeedsFTProcessor extends FeedsProcessor {
    * Implementation of FeedsProcessor::clear().
    */
   public function clear(FeedsBatch $batch, FeedsSource $source) {
-    throw Exception(t('Not supported'));
+    throw new Exception(t('Not supported'));
   }
 
   /**
