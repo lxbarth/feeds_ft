@@ -108,7 +108,8 @@ class FeedsFTProcessor extends FeedsProcessor {
    * tables.
    */
   public function addMapping($source, $target, $unique = FALSE) {
-    parent::addMapping($source, $source, $unique);
+    $target = preg_replace('/\s+/', '_', $source);
+    parent::addMapping($source, $target, $unique);
   }
 
   /**
