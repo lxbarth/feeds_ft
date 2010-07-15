@@ -110,7 +110,7 @@ class FeedsFTProcessor extends FeedsProcessor {
    * Handle adding a mapping.
    *
    * @todo: sanitize $source names as not all characters are allowed in FT
-   * tables.
+   * tables. Use "'". $row[0] ."'", move it to getFTSchema().
    */
   public function addMapping($source, $target, $unique = FALSE) {
     $target = preg_replace('/\s+/', '_', $source);
